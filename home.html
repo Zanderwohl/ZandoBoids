@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+
+	<script src="jquery-3.4.1.min.js"></script>
+		
+	<link rel="stylesheet" href="boids.css">
+	<script src="boids.js"></script>
+	
+	<title>ZanderBoids</title>
+</head>
+<body>
+</body>
+<canvas id="world" class="world" width="1500" height="800">Your browser does not support canvas.</canvas>
+<form>
+	<input type="checkbox" id="zero" onClick="toggleZeroBrain()">Show Zero's Brain<br />
+	<input type="checkbox" id="debugVision" value="Debug Vision" onClick="toggleDebugVision()">Show Connections<br />
+	<input type="checkbox" id="numberVision" value="Number Vision" onClick="toggleNumberVision()">IDs<br />
+	<input type="checkbox" id="separate" onClick="toggleSeparation()" checked="true">Separation<br />
+	<input type="checkbox" id="align" onClick="toggleAlignment()" checked="true">Alignment<br />
+	<input type="checkbox" id="cohese" onClick="toggleCohesion()" checked="true">Cohesion<br />
+</form>
+	<script>
+		main();
+		
+		function toggleZeroBrain(){
+			if($("#zero").is(':checked')){
+				zeroBrain = true;
+			} else {
+				zeroBrain = false;
+			}
+		}
+		
+		function toggleDebugVision(){
+			if($("#debugVision").is(':checked')){
+				visionDebug = true;
+			} else {
+				visionDebug = false;
+			}
+		}
+		
+		function toggleNumberVision(){
+			if($("#numberVision").is(':checked')){
+				numberVision = true;
+			} else {
+				numberVision = false;
+			}
+		}
+		
+		function toggleSeparation(){
+			if($("#separate").is(':checked')){
+				separate = true;
+			} else {
+				separate = false;
+			}
+		}
+		
+		function toggleAlignment(){
+			if($("#align").is(':checked')){
+				align = true;
+			} else {
+				align = false;
+			}
+		}
+		
+		function toggleCohesion(){
+			if($("#cohese").is(':checked')){
+				cohese = true;
+			} else {
+				cohese = false;
+			}
+		}
+	</script>
+
+</html>
