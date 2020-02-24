@@ -12,6 +12,7 @@ var zeroBrain = false; //The brain of Boid zero is shown.
 var separationStrength = .3; // .3
 var alignmentStrength = .1; // .07
 var cohesionStrength = .2;   //.1
+var colorSimilarity = 30;
 
 
 var previousTime = (new Date).getTime();
@@ -21,7 +22,6 @@ function main() {
     c = document.getElementById("world");
 
     for (var i = 0; i < boids.length; i++) {
-        // color = "#" + Math.round(Math.random() * 200 + 20).toString(16) + "" + Math.round(Math.random() * 200 + 20).toString(16) + "" + Math.round(Math.random() * 200 + 20).toString(16);
 		var color = randomColor();
         //color = "#FFFFFF";
         boids[i] = new Boid(i, c.width * Math.random(), c.height * Math.random(), 2 * Math.PI * Math.random(), color);
@@ -33,15 +33,18 @@ function main() {
 }
 
 function randomColor(){
-	n = Math.round(Math.random() * 3);
+	n = Math.round(Math.random() * 4);
 	if(n == 0){
 		return "#2222FF";
 	}
-	if(n == 1){
+	if(n == 3){
 		return "#22FF22";
 	}
 	if(n == 2){
 		return "#FF2222";
+	}
+	if(n == 1){
+		return "#DD0000";
 	}
 }
 
@@ -106,7 +109,20 @@ function Boid(n, x, y, r, color) {
     this.dr = 0; //angular velocity
     this.drd = 0; //sideways drift velocity
     this.scale = 1;
+	
+	console.log(color);
     this.color = color;
+	if(color != undefined){
+		this.red = parseInt(color.substring(1, 3), 16);
+		this.green = parseInt(color.substring(3, 5), 16);
+		this.blue = parseInt(color.substring(5, 7), 16);
+	} else {
+		this.color = "#FFFFFF";
+		this.red = parseInt("FF", 16);
+		this.green = parseInt("FF", 16);
+		this.blue = parseInt("FF", 16);
+	}
+	
     this.c = document.getElementById("world");
     this.range = 40;
     this.closeness = 20; //minimum closeness of
@@ -384,7 +400,13 @@ Boid.prototype.allSameWithinRange = function (distance) {
 }
 
 Boid.prototype.sameColor = function (other){
-	return (other.color == this.color)
+	//return (other.color == this.color);
+	
+	similarRed = (Math.abs(this.red - other.red) < colorSimilarity);
+	similarGreen = (Math.abs(this.green - other.green) < colorSimilarity);
+	similarBlue = (Math.abs(this.blue - other.blue) < colorSimilarity);
+	
+	return similarRed && similarGreen && similarBlue;
 }
 
 //Gets the distance between Boid that function is called on, and another object provided it has an x and y value.
